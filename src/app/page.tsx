@@ -1,65 +1,99 @@
-import Image from "next/image";
+import Link from 'next/link'
+import { ArrowRight, Zap, Shield, Truck, Headphones } from 'lucide-react'
+import { getFeaturedProducts, getNewArrivals, getBestSellers } from '@/lib/queries'
+import { ProductCard } from '@/components/product/ProductCard'
+import { HeroCarousel } from '@/components/layout/HeroCarousel'
 
-export default function Home() {
+const CATEGORIES = [
+  { name: 'Gaming Laptops',  slug: 'laptops/gaming-laptops',    icon: '💻', color: 'from-red-100 to-red-50 dark:from-red-900/40 dark:to-red-800/20' },
+  { name: 'Gaming Desktops', slug: 'desktops/gaming-desktops',  icon: '🖥️', color: 'from-purple-100 to-purple-50 dark:from-purple-900/40 dark:to-purple-800/20' },
+  { name: 'Graphics Cards',  slug: 'components/graphics-cards', icon: '🎮', color: 'from-green-100 to-green-50 dark:from-green-900/40 dark:to-green-800/20' },
+  { name: 'Peripherals',     slug: 'peripherals',                icon: '⌨️', color: 'from-orange-100 to-orange-50 dark:from-orange-900/40 dark:to-orange-800/20' },
+  { name: 'Monitors',        slug: 'monitors',                   icon: '🖥', color: 'from-pink-100 to-pink-50 dark:from-pink-900/40 dark:to-pink-800/20' },
+  { name: 'Storage',         slug: 'storage',                    icon: '💾', color: 'from-cyan-100 to-cyan-50 dark:from-cyan-900/40 dark:to-cyan-800/20' },
+]
+
+const PERKS = [
+  { icon: Truck,      title: 'Free Shipping',   desc: 'On orders over $100' },
+  { icon: Shield,     title: '2-Year Warranty', desc: 'On all products' },
+  { icon: Zap,        title: 'Fast Delivery',   desc: '1-3 business days' },
+  { icon: Headphones, title: '24/7 Support',    desc: 'Always here to help' },
+]
+
+export default async function HomePage() {
+  const [featured, newArrivals, bestSellers] = await Promise.all([
+    getFeaturedProducts().catch(() => []),
+    getNewArrivals().catch(() => []),
+    getBestSellers().catch(() => []),
+  ])
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="max-w-7xl mx-auto px-4">
+
+      <HeroCarousel />
+
+      {/* Featured Products */}
+      {featured.length > 0 && (
+        <section className="mb-16">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold text-zinc-900 dark:text-white">Featured Products</h2>
+            <Link href="/shop?featured=true" className="text-sm text-red-500 dark:text-red-400 hover:text-red-600 dark:hover:text-red-300 flex items-center gap-1">
+              View all <ArrowRight size={14} />
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {featured.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Best Sellers + New Arrivals */}
+      {(bestSellers.length > 0 || newArrivals.length > 0) && (
+        <div className="grid md:grid-cols-2 gap-8 mb-16">
+          {bestSellers.length > 0 && (
+            <section>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold text-zinc-900 dark:text-white">Best Sellers</h2>
+                <Link href="/shop?best=true" className="text-sm text-red-500 dark:text-red-400 hover:text-red-600 dark:hover:text-red-300 flex items-center gap-1">
+                  More <ArrowRight size={14} />
+                </Link>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                {bestSellers.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+            </section>
+          )}
+          {newArrivals.length > 0 && (
+            <section>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold text-zinc-900 dark:text-white">New Arrivals</h2>
+                <Link href="/shop?new=true" className="text-sm text-red-500 dark:text-red-400 hover:text-red-600 dark:hover:text-red-300 flex items-center gap-1">
+                  More <ArrowRight size={14} />
+                </Link>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                {newArrivals.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+            </section>
+          )}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      )}
+
+      {/* Promo Banner */}
+      <section className="mb-16 rounded-2xl bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-900/40 dark:to-orange-900/40 border border-red-200 dark:border-red-800/40 p-8 md:p-12 text-center">
+        <h2 className="text-3xl font-bold text-zinc-900 dark:text-white mb-2">Build Your Dream PC</h2>
+        <p className="text-zinc-600 dark:text-zinc-400 mb-6">Get expert advice on choosing the right components for your setup.</p>
+        <Link href="/shop/components" className="inline-flex items-center gap-2 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 hover:bg-zinc-700 dark:hover:bg-zinc-100 px-6 py-3 rounded-xl font-semibold transition-colors">
+          Browse Components <ArrowRight size={16} />
+        </Link>
+      </section>
+
     </div>
-  );
+  )
 }

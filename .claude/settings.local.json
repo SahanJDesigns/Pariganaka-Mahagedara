@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e \"const tw = require\\('./node_modules/tailwindcss/dist/lib.js'\\); console.log\\(typeof tw\\);\")",
+      "Bash(node -e ' *)",
+      "Bash(npx tsc *)"
+    ]
+  }
+}
