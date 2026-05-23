@@ -2,16 +2,18 @@ import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   images: {
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '*.supabase.co',
-        pathname: '/storage/v1/object/public/**',
+        hostname: 'cdn.sanity.io',
+        pathname: '/images/**',
       },
-      // Allow any https image during development
       {
         protocol: 'https',
-        hostname: '**',
+        hostname: 'placehold.co',
       },
     ],
   },

@@ -10,8 +10,8 @@ interface CartState {
 
 type CartAction =
   | { type: 'ADD_ITEM'; product: Product; variant: ProductVariant | null }
-  | { type: 'REMOVE_ITEM'; productId: number; variantId?: number }
-  | { type: 'UPDATE_QTY'; productId: number; variantId: number | undefined; quantity: number }
+  | { type: 'REMOVE_ITEM'; productId: string; variantId?: string }
+  | { type: 'UPDATE_QTY'; productId: string; variantId: string | undefined; quantity: number }
   | { type: 'CLEAR' }
   | { type: 'TOGGLE_CART' }
   | { type: 'CLOSE_CART' }
@@ -73,8 +73,8 @@ function cartReducer(state: CartState, action: CartAction): CartState {
 
 interface CartContextValue extends CartState {
   addItem: (product: Product, variant: ProductVariant | null) => void
-  removeItem: (productId: number, variantId?: number) => void
-  updateQuantity: (productId: number, variantId: number | undefined, quantity: number) => void
+  removeItem: (productId: string, variantId?: string) => void
+  updateQuantity: (productId: string, variantId: string | undefined, quantity: number) => void
   clearCart: () => void
   toggleCart: () => void
   closeCart: () => void
@@ -110,8 +110,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
       value={{
         ...state,
         addItem: (product, variant) => dispatch({ type: 'ADD_ITEM', product, variant }),
-        removeItem: (productId, variantId) => dispatch({ type: 'REMOVE_ITEM', productId, variantId }),
-        updateQuantity: (productId, variantId, quantity) =>
+        removeItem: (productId: string, variantId?: string) => dispatch({ type: 'REMOVE_ITEM', productId, variantId }),
+        updateQuantity: (productId: string, variantId: string | undefined, quantity: number) =>
           dispatch({ type: 'UPDATE_QTY', productId, variantId, quantity }),
         clearCart: () => dispatch({ type: 'CLEAR' }),
         toggleCart: () => dispatch({ type: 'TOGGLE_CART' }),

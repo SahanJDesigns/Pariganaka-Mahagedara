@@ -81,7 +81,7 @@ export default async function ShopPage({ params, searchParams }: Props) {
   const filterProps = { brands, subcategories, categorySlug, subcategorySlug }
 
   return (
-    <div className="max-w-screen-xl mx-auto px-4 py-8">
+    <div className="max-w-7xl mx-auto px-4 py-8">
 
       {/* Breadcrumbs */}
       <nav className="flex items-center gap-1 text-sm text-zinc-500 mb-6">
@@ -89,9 +89,9 @@ export default async function ShopPage({ params, searchParams }: Props) {
           <span key={crumb.href} className="flex items-center gap-1">
             {i > 0 && <ChevronRight size={14} />}
             {i === breadcrumbs.length - 1 ? (
-              <span className="text-zinc-700 dark:text-zinc-300">{crumb.label}</span>
+              <span className="text-zinc-700">{crumb.label}</span>
             ) : (
-              <Link href={crumb.href} className="hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors">{crumb.label}</Link>
+              <Link href={crumb.href} className="hover:text-zinc-700 transition-colors">{crumb.label}</Link>
             )}
           </span>
         ))}
@@ -101,7 +101,7 @@ export default async function ShopPage({ params, searchParams }: Props) {
 
         {/* Filter Sidebar — desktop */}
         <aside className="hidden lg:block w-60 shrink-0">
-          <div className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 sticky top-24">
+          <div className="bg-zinc-100 border border-zinc-200 rounded-xl p-4 sticky top-24">
             <Suspense fallback={<p className="text-sm text-zinc-400">Loading…</p>}>
               <ShopFilters {...filterProps} />
             </Suspense>
@@ -119,7 +119,7 @@ export default async function ShopPage({ params, searchParams }: Props) {
           {/* Title + count */}
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">{pageTitle}</h1>
+              <h1 className="text-2xl font-bold text-zinc-900">{pageTitle}</h1>
               <p className="text-sm text-zinc-500 mt-1">{total} product{total !== 1 ? 's' : ''}</p>
             </div>
           </div>
@@ -129,7 +129,7 @@ export default async function ShopPage({ params, searchParams }: Props) {
             <div className="text-center py-24 text-zinc-500">
               <p className="text-lg mb-2">No products found</p>
               <p className="text-sm mb-4 text-zinc-400">Try adjusting or clearing the filters.</p>
-              <Link href="/shop" className="text-sm text-red-500 dark:text-red-400 hover:underline">Browse all products</Link>
+              <Link href="/shop" className="text-sm text-brand-600 hover:underline">Browse all products</Link>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -148,8 +148,8 @@ export default async function ShopPage({ params, searchParams }: Props) {
                   href={buildPageHref(basePath, sp as Record<string, string | undefined>, p)}
                   className={`w-10 h-10 flex items-center justify-center rounded-lg text-sm font-medium transition-colors ${
                     p === page
-                      ? 'bg-red-600 text-white'
-                      : 'bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:border-zinc-400 dark:hover:border-zinc-600'
+                      ? 'bg-brand-600 text-white'
+                      : 'bg-zinc-100 border border-zinc-200 text-zinc-500 hover:text-zinc-900 hover:border-zinc-400'
                   }`}
                 >
                   {p}

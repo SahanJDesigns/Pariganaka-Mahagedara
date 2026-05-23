@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function formatPrice(price: number): string {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price)
+  return 'Rs. ' + new Intl.NumberFormat('en-LK', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(price)
 }
 
 export function getProductPrice(product: { base_price: number; sale_price: number | null }) {
@@ -19,5 +19,7 @@ export function getDiscount(base: number, sale: number): number {
 
 export function getPrimaryImage(images?: { url: string; is_primary: boolean; alt_text: string | null }[]) {
   if (!images || images.length === 0) return null
-  return images.find((i) => i.is_primary) ?? images[0]
+  const valid = images.filter((i) => i.url)
+  if (!valid.length) return null
+  return valid.find((i) => i.is_primary) ?? valid[0]
 }

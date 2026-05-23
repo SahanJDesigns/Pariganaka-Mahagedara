@@ -1,0 +1,78 @@
+import { defineField, defineType } from 'sanity'
+
+export default defineType({
+  name: 'product',
+  title: 'Product',
+  type: 'document',
+  fields: [
+    defineField({ name: 'name', type: 'string', title: 'Name', validation: (r) => r.required() }),
+    defineField({ name: 'slug', type: 'slug', title: 'Slug', options: { source: 'name' }, validation: (r) => r.required() }),
+    defineField({ name: 'brand', type: 'reference', title: 'Brand', to: [{ type: 'brand' }], validation: (r) => r.required() }),
+    defineField({ name: 'category', type: 'reference', title: 'Category', to: [{ type: 'category' }], validation: (r) => r.required() }),
+    defineField({ name: 'subcategory', type: 'reference', title: 'Subcategory', to: [{ type: 'subcategory' }], validation: (r) => r.required() }),
+    defineField({ name: 'short_description', type: 'text', title: 'Short Description' }),
+    defineField({ name: 'description', type: 'text', title: 'Description' }),
+    defineField({ name: 'sku', type: 'string', title: 'SKU' }),
+    defineField({ name: 'base_price', type: 'number', title: 'Base Price', validation: (r) => r.required().min(0) }),
+    defineField({ name: 'sale_price', type: 'number', title: 'Sale Price' }),
+    defineField({ name: 'cost_price', type: 'number', title: 'Cost Price' }),
+    defineField({ name: 'stock_qty', type: 'number', title: 'Stock Quantity', initialValue: 0 }),
+    defineField({ name: 'low_stock_threshold', type: 'number', title: 'Low Stock Threshold', initialValue: 5 }),
+    defineField({ name: 'weight_kg', type: 'number', title: 'Weight (kg)' }),
+    defineField({ name: 'is_featured', type: 'boolean', title: 'Featured', initialValue: false }),
+    defineField({ name: 'is_new_arrival', type: 'boolean', title: 'New Arrival', initialValue: false }),
+    defineField({ name: 'is_best_seller', type: 'boolean', title: 'Best Seller', initialValue: false }),
+    defineField({ name: 'is_active', type: 'boolean', title: 'Active', initialValue: true }),
+    defineField({ name: 'meta_title', type: 'string', title: 'Meta Title' }),
+    defineField({ name: 'meta_description', type: 'text', title: 'Meta Description' }),
+    defineField({ name: 'rating_avg', type: 'number', title: 'Rating Average', initialValue: 0 }),
+    defineField({ name: 'rating_count', type: 'number', title: 'Rating Count', initialValue: 0 }),
+    defineField({
+      name: 'images',
+      type: 'array',
+      title: 'Images',
+      of: [{
+        type: 'object',
+        fields: [
+          defineField({ name: 'image', type: 'image', title: 'Image', options: { hotspot: true }, validation: (r) => r.required() }),
+          defineField({ name: 'alt_text', type: 'string', title: 'Alt Text' }),
+          defineField({ name: 'is_primary', type: 'boolean', title: 'Primary Image', initialValue: false }),
+          defineField({ name: 'sort_order', type: 'number', title: 'Sort Order', initialValue: 0 }),
+        ],
+      }],
+    }),
+    defineField({
+      name: 'specifications',
+      type: 'array',
+      title: 'Specifications',
+      of: [{
+        type: 'object',
+        fields: [
+          defineField({ name: 'spec_group', type: 'string', title: 'Group', validation: (r) => r.required() }),
+          defineField({ name: 'spec_name', type: 'string', title: 'Name', validation: (r) => r.required() }),
+          defineField({ name: 'spec_value', type: 'string', title: 'Value', validation: (r) => r.required() }),
+          defineField({ name: 'sort_order', type: 'number', title: 'Sort Order', initialValue: 0 }),
+        ],
+      }],
+    }),
+    defineField({
+      name: 'variants',
+      type: 'array',
+      title: 'Variants',
+      of: [{
+        type: 'object',
+        fields: [
+          defineField({ name: 'variant_name', type: 'string', title: 'Variant Name', validation: (r) => r.required() }),
+          defineField({ name: 'color', type: 'string', title: 'Color' }),
+          defineField({ name: 'color_hex', type: 'string', title: 'Color Hex (e.g. #FF0000)' }),
+          defineField({ name: 'storage_gb', type: 'number', title: 'Storage (GB)' }),
+          defineField({ name: 'ram_gb', type: 'number', title: 'RAM (GB)' }),
+          defineField({ name: 'extra_price', type: 'number', title: 'Extra Price', initialValue: 0 }),
+          defineField({ name: 'stock_qty', type: 'number', title: 'Stock Quantity', initialValue: 0 }),
+          defineField({ name: 'sku_suffix', type: 'string', title: 'SKU Suffix' }),
+          defineField({ name: 'is_active', type: 'boolean', title: 'Active', initialValue: true }),
+        ],
+      }],
+    }),
+  ],
+})

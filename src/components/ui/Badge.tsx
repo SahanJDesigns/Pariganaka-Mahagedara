@@ -7,10 +7,10 @@ interface BadgeProps {
 }
 
 const variants = {
-  sale: 'bg-red-500 text-white',
-  new: 'bg-red-500 text-white',
+  sale: 'bg-brand-600 text-white',
+  new: 'bg-brand-600 text-white',
   hot: 'bg-orange-500 text-white',
-  default: 'bg-zinc-700 text-zinc-200',
+  default: 'bg-zinc-200 text-zinc-700',
 }
 
 export function Badge({ children, variant = 'default', className }: BadgeProps) {

@@ -4,9 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { Search, ShoppingCart, Menu, X, ChevronDown, ChevronRight } from 'lucide-react'
 import { useCart } from '@/context/CartContext'
-import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import type { CategoryWithSubcategories } from '@/types'
-import Image from 'next/image'
 import { Logo } from '../Logo'
 
 const PRIMARY_COUNT = 4
@@ -33,14 +31,14 @@ function MobileCatRow({
         <Link
           href={`/shop/${cat.slug}`}
           onClick={onClose}
-          className="flex-1 px-3 py-2.5 text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg transition-colors"
+          className="flex-1 px-3 py-2.5 text-sm text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 rounded-lg transition-colors"
         >
           {cat.name}
         </Link>
         {hasChildren && (
           <button
             onClick={() => setExpanded(expanded === cat.slug ? null : cat.slug)}
-            className="p-2.5 text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg transition-colors"
+            className="p-2.5 text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 rounded-lg transition-colors"
           >
             <ChevronDown
               size={15}
@@ -50,13 +48,13 @@ function MobileCatRow({
         )}
       </div>
       {expanded === cat.slug && (
-        <div className="ml-3 pl-3 border-l-2 border-zinc-200 dark:border-zinc-700 mt-0.5 mb-1 flex flex-col gap-0.5">
+        <div className="ml-3 pl-3 border-l-2 border-zinc-200 mt-0.5 mb-1 flex flex-col gap-0.5">
           {cat.subcategories?.map((sub) => (
             <Link
               key={sub.slug}
               href={`/shop/${cat.slug}/${sub.slug}`}
               onClick={onClose}
-              className="px-3 py-2 text-sm text-zinc-500 dark:text-zinc-500 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg transition-colors"
+              className="px-3 py-2 text-sm text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 rounded-lg transition-colors"
             >
               {sub.name}
             </Link>
@@ -113,8 +111,8 @@ export function Header({ categories = [] }: HeaderProps) {
   return (
     <header className={`sticky top-0 z-30 transition-all duration-300 ${
       scrolled
-        ? 'bg-white/95 dark:bg-zinc-950/95 backdrop-blur border-b border-zinc-200 dark:border-zinc-800'
-        : 'bg-white dark:bg-zinc-950 border-b border-zinc-200/50 dark:border-zinc-800/50'
+        ? 'bg-white/95 backdrop-blur border-b border-zinc-200'
+        : 'bg-white border-b border-zinc-200/50'
     }`}>
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
@@ -122,12 +120,20 @@ export function Header({ categories = [] }: HeaderProps) {
           {/* Logo */}
           <Link href="/" className="flex items-center shrink-0 group">
             <div className="overflow-hidden shrink-0">
-             <Logo />
+              <Logo />
             </div>
           </Link>
 
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-0.5">
+
+            {/* Home */}
+            <Link
+              href="/"
+              className="px-3 py-2 text-sm rounded-lg transition-colors text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100"
+            >
+              Home
+            </Link>
 
             {/* Primary categories — first 4 */}
             {primary.map((cat) => (
@@ -141,8 +147,8 @@ export function Header({ categories = [] }: HeaderProps) {
                   href={`/shop/${cat.slug}`}
                   className={`flex items-center gap-1 px-3 py-2 text-sm rounded-lg transition-colors ${
                     activeNav === cat.slug
-                      ? 'text-zinc-900 dark:text-white bg-zinc-100 dark:bg-zinc-800'
-                      : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800'
+                      ? 'text-zinc-900 bg-zinc-100'
+                      : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100'
                   }`}
                 >
                   {cat.name}
@@ -157,27 +163,27 @@ export function Header({ categories = [] }: HeaderProps) {
                 {/* Subcategory dropdown */}
                 {activeNav === cat.slug && (cat.subcategories?.length ?? 0) > 0 && (
                   <div
-                    className="absolute top-[calc(100%+6px)] left-0 z-50 min-w-[200px] bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl shadow-xl overflow-hidden"
+                    className="absolute top-[calc(100%+6px)] left-0 z-50 min-w-[200px] bg-white border border-zinc-200 rounded-xl shadow-xl overflow-hidden"
                     onMouseEnter={cancelClose}
                     onMouseLeave={scheduleClose}
                   >
                     <div className="p-1.5">
                       <Link
                         href={`/shop/${cat.slug}`}
-                        className="flex items-center gap-1 px-3 py-2 text-xs font-semibold text-red-500 dark:text-red-400 hover:text-red-600 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-lg transition-colors"
+                        className="flex items-center gap-1 px-3 py-2 text-xs font-semibold text-brand-600 hover:text-brand-700 hover:bg-brand-50 rounded-lg transition-colors"
                       >
                         View all {cat.name}
                         <ChevronRight size={12} />
                       </Link>
-                      <div className="my-1.5 border-t border-zinc-100 dark:border-zinc-800" />
+                      <div className="my-1.5 border-t border-zinc-100" />
                       <div className={`grid ${(cat.subcategories?.length ?? 0) >= 5 ? 'grid-cols-2 w-[320px]' : 'grid-cols-1'}`}>
                         {cat.subcategories?.map((sub) => (
                           <Link
                             key={sub.slug}
                             href={`/shop/${cat.slug}/${sub.slug}`}
-                            className="flex items-center gap-2.5 px-3 py-2 text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg transition-colors"
+                            className="flex items-center gap-2.5 px-3 py-2 text-sm text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 rounded-lg transition-colors"
                           >
-                            <span className="w-1.5 h-1.5 rounded-full bg-zinc-300 dark:bg-zinc-600 shrink-0" />
+                            <span className="w-1.5 h-1.5 rounded-full bg-zinc-300 shrink-0" />
                             {sub.name}
                           </Link>
                         ))}
@@ -198,8 +204,8 @@ export function Header({ categories = [] }: HeaderProps) {
                 <button
                   className={`flex items-center gap-1 px-3 py-2 text-sm rounded-lg transition-colors ${
                     activeNav === 'more'
-                      ? 'text-zinc-900 dark:text-white bg-zinc-100 dark:bg-zinc-800'
-                      : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800'
+                      ? 'text-zinc-900 bg-zinc-100'
+                      : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100'
                   }`}
                 >
                   More
@@ -211,30 +217,26 @@ export function Header({ categories = [] }: HeaderProps) {
 
                 {activeNav === 'more' && (
                   <div
-                    className="absolute top-[calc(100%+6px)] left-0 z-50 flex bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl shadow-xl overflow-hidden"
+                    className="absolute top-[calc(100%+6px)] left-0 z-50 flex bg-white border border-zinc-200 rounded-xl shadow-xl overflow-hidden"
                     onMouseEnter={cancelClose}
                     onMouseLeave={scheduleClose}
                   >
-                    {/* Left panel: remaining categories */}
                     <div className="w-48 p-1.5">
                       {more.map((cat) => (
-                        <div
-                          key={cat.slug}
-                          onMouseEnter={() => setMoreHovered(cat.slug)}
-                        >
+                        <div key={cat.slug} onMouseEnter={() => setMoreHovered(cat.slug)}>
                           <Link
                             href={`/shop/${cat.slug}`}
                             className={`flex items-center justify-between gap-2 px-3 py-2 text-sm rounded-lg transition-colors ${
                               moreHovered === cat.slug
-                                ? 'text-zinc-900 dark:text-white bg-zinc-100 dark:bg-zinc-800'
-                                : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800'
+                                ? 'text-zinc-900 bg-zinc-100'
+                                : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100'
                             }`}
                           >
                             {cat.name}
                             {(cat.subcategories?.length ?? 0) > 0 && (
                               <ChevronRight
                                 size={13}
-                                className={`shrink-0 transition-colors ${moreHovered === cat.slug ? 'text-zinc-600 dark:text-zinc-400' : 'text-zinc-400 dark:text-zinc-600'}`}
+                                className={`shrink-0 transition-colors ${moreHovered === cat.slug ? 'text-zinc-600' : 'text-zinc-400'}`}
                               />
                             )}
                           </Link>
@@ -242,27 +244,26 @@ export function Header({ categories = [] }: HeaderProps) {
                       ))}
                     </div>
 
-                    {/* Right panel: subcategories of hovered more-category */}
                     {moreHovered && (() => {
                       const cat = more.find((c) => c.slug === moreHovered)
                       if (!cat || (cat.subcategories?.length ?? 0) === 0) return null
                       return (
-                        <div className="w-52 p-1.5 border-l border-zinc-100 dark:border-zinc-800">
+                        <div className="w-52 p-1.5 border-l border-zinc-100">
                           <Link
                             href={`/shop/${cat.slug}`}
-                            className="flex items-center gap-1 px-3 py-2 text-xs font-semibold text-red-500 dark:text-red-400 hover:text-red-600 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-950/30 rounded-lg transition-colors"
+                            className="flex items-center gap-1 px-3 py-2 text-xs font-semibold text-brand-600 hover:text-brand-700 hover:bg-brand-50 rounded-lg transition-colors"
                           >
                             View all {cat.name}
                             <ChevronRight size={12} />
                           </Link>
-                          <div className="my-1.5 border-t border-zinc-100 dark:border-zinc-800" />
+                          <div className="my-1.5 border-t border-zinc-100" />
                           {cat.subcategories?.map((sub) => (
                             <Link
                               key={sub.slug}
                               href={`/shop/${cat.slug}/${sub.slug}`}
-                              className="flex items-center gap-2.5 px-3 py-2 text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg transition-colors"
+                              className="flex items-center gap-2.5 px-3 py-2 text-sm text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 rounded-lg transition-colors"
                             >
-                              <span className="w-1.5 h-1.5 rounded-full bg-zinc-300 dark:bg-zinc-600 shrink-0" />
+                              <span className="w-1.5 h-1.5 rounded-full bg-zinc-300 shrink-0" />
                               {sub.name}
                             </Link>
                           ))}
@@ -280,8 +281,8 @@ export function Header({ categories = [] }: HeaderProps) {
             {/* Search */}
             <div className="relative">
               {searchOpen ? (
-                <div className="flex items-center bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-lg px-3 py-2 gap-2">
-                  <Search size={16} className="text-zinc-500 dark:text-zinc-400 shrink-0" />
+                <div className="flex items-center bg-zinc-100 border border-zinc-300 rounded-lg px-3 py-2 gap-2">
+                  <Search size={16} className="text-zinc-500 shrink-0" />
                   <input
                     ref={searchRef}
                     value={searchQuery}
@@ -293,11 +294,11 @@ export function Header({ categories = [] }: HeaderProps) {
                       if (e.key === 'Escape') setSearchOpen(false)
                     }}
                     placeholder="Search products…"
-                    className="bg-transparent text-sm text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 outline-none w-48"
+                    className="bg-transparent text-sm text-zinc-900 placeholder-zinc-400 outline-none w-48"
                   />
                   <button
                     onClick={() => setSearchOpen(false)}
-                    className="text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white"
+                    className="text-zinc-500 hover:text-zinc-900"
                   >
                     <X size={14} />
                   </button>
@@ -305,7 +306,7 @@ export function Header({ categories = [] }: HeaderProps) {
               ) : (
                 <button
                   onClick={() => setSearchOpen(true)}
-                  className="p-2 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg transition-colors"
+                  className="p-2 text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 rounded-lg transition-colors"
                 >
                   <Search size={20} />
                 </button>
@@ -315,25 +316,20 @@ export function Header({ categories = [] }: HeaderProps) {
             {/* Cart */}
             <button
               onClick={toggleCart}
-              className="relative p-2 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg transition-colors"
+              className="relative p-2 text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 rounded-lg transition-colors"
             >
               <ShoppingCart size={20} />
               {totalItems > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 w-5 h-5 bg-red-600 text-white text-xs rounded-full flex items-center justify-center font-medium">
+                <span className="absolute -top-0.5 -right-0.5 w-5 h-5 bg-brand-600 text-white text-xs rounded-full flex items-center justify-center font-medium">
                   {totalItems > 9 ? '9+' : totalItems}
                 </span>
               )}
             </button>
 
-            {/* Theme Toggle */}
-            <div className="hidden sm:flex items-center px-1">
-              <ThemeToggle />
-            </div>
-
             {/* Mobile menu toggle */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="lg:hidden p-2 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg transition-colors"
+              className="lg:hidden p-2 text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 rounded-lg transition-colors"
             >
               {mobileOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
@@ -342,8 +338,14 @@ export function Header({ categories = [] }: HeaderProps) {
 
         {/* Mobile Nav — accordion */}
         {mobileOpen && (
-          <div className="lg:hidden pb-4 border-t border-zinc-200 dark:border-zinc-800 pt-3 flex flex-col gap-0.5">
-            {/* Primary 4 categories */}
+          <div className="lg:hidden pb-4 border-t border-zinc-200 pt-3 flex flex-col gap-0.5">
+            <Link
+              href="/"
+              onClick={() => setMobileOpen(false)}
+              className="px-3 py-2.5 text-sm text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 rounded-lg transition-colors"
+            >
+              Home
+            </Link>
             {primary.map((cat) => (
               <MobileCatRow
                 key={cat.slug}
@@ -354,12 +356,11 @@ export function Header({ categories = [] }: HeaderProps) {
               />
             ))}
 
-            {/* More — collapsible group */}
             {more.length > 0 && (
               <div>
                 <button
                   onClick={() => setMobileMoreOpen((v) => !v)}
-                  className="w-full flex items-center justify-between px-3 py-2.5 text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-lg transition-colors"
+                  className="w-full flex items-center justify-between px-3 py-2.5 text-sm text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 rounded-lg transition-colors"
                 >
                   <span>More</span>
                   <ChevronDown
@@ -369,7 +370,7 @@ export function Header({ categories = [] }: HeaderProps) {
                 </button>
 
                 {mobileMoreOpen && (
-                  <div className="ml-3 pl-3 border-l-2 border-zinc-200 dark:border-zinc-700 mt-0.5 mb-1 flex flex-col gap-0.5">
+                  <div className="ml-3 pl-3 border-l-2 border-zinc-200 mt-0.5 mb-1 flex flex-col gap-0.5">
                     {more.map((cat) => (
                       <MobileCatRow
                         key={cat.slug}
@@ -383,12 +384,6 @@ export function Header({ categories = [] }: HeaderProps) {
                 )}
               </div>
             )}
-
-            {/* Theme toggle for small screens */}
-            <div className="sm:hidden flex items-center gap-3 px-3 py-2.5 mt-1 border-t border-zinc-200 dark:border-zinc-800 pt-3">
-              <span className="text-sm text-zinc-600 dark:text-zinc-400">Theme</span>
-              <ThemeToggle />
-            </div>
           </div>
         )}
       </div>

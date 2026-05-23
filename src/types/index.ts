@@ -1,5 +1,15 @@
+export interface Flier {
+  id: string
+  title: string
+  image_url: string
+  alt_text: string | null
+  link_url: string | null
+  sort_order: number
+  is_active: boolean
+}
+
 export interface Brand {
-  id: number
+  id: string
   name: string
   slug: string
   logo_url: string | null
@@ -9,7 +19,7 @@ export interface Brand {
 }
 
 export interface Category {
-  id: number
+  id: string
   name: string
   slug: string
   description: string | null
@@ -21,8 +31,7 @@ export interface Category {
 }
 
 export interface Subcategory {
-  id: number
-  category_id: number
+  id: string
   name: string
   slug: string
   description: string | null
@@ -38,10 +47,7 @@ export type CategoryWithSubcategories = Category & {
 }
 
 export interface Product {
-  id: number
-  brand_id: number
-  category_id: number
-  subcategory_id: number
+  id: string
   name: string
   slug: string
   short_description: string | null
@@ -72,8 +78,7 @@ export interface Product {
 }
 
 export interface ProductImage {
-  id: number
-  product_id: number
+  id: string
   url: string
   alt_text: string | null
   is_primary: boolean
@@ -81,8 +86,7 @@ export interface ProductImage {
 }
 
 export interface ProductSpecification {
-  id: number
-  product_id: number
+  id: string
   spec_group: string
   spec_name: string
   spec_value: string
@@ -90,8 +94,7 @@ export interface ProductSpecification {
 }
 
 export interface ProductVariant {
-  id: number
-  product_id: number
+  id: string
   variant_name: string
   color: string | null
   color_hex: string | null
