@@ -47,7 +47,7 @@ export default function CartPage() {
             return (
               <div key={`${item.product.id}-${item.variant?.id}`} className="flex gap-4 bg-zinc-100 border border-zinc-200 rounded-xl p-4">
                 <div className="w-24 h-24 bg-zinc-200 rounded-xl relative shrink-0 overflow-hidden">
-                  {image && <Image src={image.url} alt={item.product.name} fill unoptimized className="object-contain p-2" />}
+                  {image && <Image src={image.url} alt={item.product.name} fill unoptimized className="object-cover" />}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex justify-between gap-2">

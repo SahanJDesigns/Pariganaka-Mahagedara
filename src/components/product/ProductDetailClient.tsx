@@ -73,7 +73,7 @@ export function ProductDetailClient({ product }: Props) {
                 alt={images[selectedImage].alt_text ?? product.name}
                 fill
                 unoptimized
-                className="object-contain p-8"
+                className="object-cover"
                 priority
               />
             ) : (
@@ -93,7 +93,7 @@ export function ProductDetailClient({ product }: Props) {
                   onClick={() => setSelectedImage(i)}
                   className={`w-20 h-20 shrink-0 rounded-xl bg-zinc-100 border-2 overflow-hidden relative transition-all ${selectedImage === i ? 'border-brand-600' : 'border-zinc-200 hover:border-zinc-400'}`}
                 >
-                  <Image src={img.url} alt={img.alt_text ?? ''} fill unoptimized className="object-contain p-2" />
+                  <Image src={img.url} alt={img.alt_text ?? ''} fill unoptimized className="object-cover" />
                 </button>
               ))}
             </div>

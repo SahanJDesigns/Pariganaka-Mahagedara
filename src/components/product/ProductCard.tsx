@@ -42,7 +42,7 @@ export function ProductCard({ product }: ProductCardProps) {
             alt={primaryImage.alt_text ?? product.name}
             fill
             unoptimized
-            className="object-contain p-4 group-hover:scale-105 transition-transform duration-300"
+            className="object-cover group-hover:scale-105 transition-transform duration-300"
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center text-zinc-400 text-sm">No image</div>

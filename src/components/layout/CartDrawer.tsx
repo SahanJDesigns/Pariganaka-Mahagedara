@@ -55,7 +55,7 @@ export function CartDrawer() {
                 <div key={`${item.product.id}-${item.variant?.id}`} className="flex gap-3 bg-zinc-100 rounded-xl p-3">
                   <div className="w-20 h-20 bg-zinc-200 rounded-lg relative shrink-0 overflow-hidden">
                     {image && (
-                      <Image src={image.url} alt={item.product.name} fill unoptimized className="object-contain p-1" />
+                      <Image src={image.url} alt={item.product.name} fill unoptimized className="object-cover" />
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
