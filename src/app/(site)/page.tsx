@@ -11,6 +11,8 @@ const PERKS = [
   { icon: Headphones, title: '24/7 Support',    desc: 'Always here to help' },
 ]
 
+export const revalidate = 60
+
 export default async function HomePage() {
   const [featured, newArrivals, bestSellers, fliers] = await Promise.all([
     getFeaturedProducts().catch(() => []),

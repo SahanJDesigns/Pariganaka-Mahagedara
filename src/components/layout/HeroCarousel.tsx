@@ -38,7 +38,7 @@ export function HeroCarousel({ fliers }: HeroCarouselProps) {
           {validFliers.map((flier, i) => {
             const alt = flier.alt_text ?? flier.title
             const content = (
-              <div className="relative aspect-16/6 md:aspect-16/5.5 lg:aspect-16/5">
+              <div className="relative aspect-3/4 md:aspect-video lg:aspect-16/5">
                 {/* Mobile image — shown below md breakpoint */}
                 <div className="block md:hidden absolute inset-0">
                   <Image src={flier.mobile_image_url} alt={alt} fill unoptimized priority={i === 0} className="object-cover" />
