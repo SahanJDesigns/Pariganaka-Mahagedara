@@ -15,7 +15,7 @@ interface HeroCarouselProps {
 export function HeroCarousel({ fliers }: HeroCarouselProps) {
   const [index, setIndex] = useState(0)
 
-  const validFliers = fliers.filter((f) => f.image_url)
+  const validFliers = fliers.filter((f) => f.mobile_image_url && f.tablet_image_url && f.desktop_image_url)
 
   const prev = useCallback(() => setIndex(i => (i - 1 + validFliers.length) % validFliers.length), [validFliers.length])
   const next = useCallback(() => setIndex(i => (i + 1) % validFliers.length), [validFliers.length])
@@ -36,24 +36,33 @@ export function HeroCarousel({ fliers }: HeroCarouselProps) {
           style={{ transform: `translateX(-${index * 100}%)` }}
         >
           {validFliers.map((flier, i) => {
-            const img = (
-              <Image
-                src={flier.image_url}
-                alt={flier.alt_text ?? flier.title}
-                fill
-                unoptimized
-                priority={i === 0}
-                className="object-cover"
-              />
+            const alt = flier.alt_text ?? flier.title
+            const content = (
+              <div className="relative aspect-16/6 md:aspect-16/5.5 lg:aspect-16/5">
+                {/* Mobile image — shown below md breakpoint */}
+                <div className="block md:hidden absolute inset-0">
+                  <Image src={flier.mobile_image_url} alt={alt} fill unoptimized priority={i === 0} className="object-cover" />
+                </div>
+                {/* Tablet image — shown between md and lg */}
+                <div className="hidden md:block lg:hidden absolute inset-0">
+                  <Image src={flier.tablet_image_url} alt={alt} fill unoptimized priority={i === 0} className="object-cover" />
+                </div>
+                {/* Desktop image — shown at lg and above */}
+                <div className="hidden lg:block absolute inset-0">
+                  <Image src={flier.desktop_image_url} alt={alt} fill unoptimized priority={i === 0} className="object-cover" />
+                </div>
+              </div>
             )
-            const slide = (
-              <div key={flier.id} className="min-w-full relative aspect-16/6 md:aspect-16/5">{img}</div>
-            )
+
             return flier.link_url ? (
-              <Link key={flier.id} href={flier.link_url} className="min-w-full block relative aspect-16/6 md:aspect-16/5">
-                {img}
+              <Link key={flier.id} href={flier.link_url} className="min-w-full block">
+                {content}
               </Link>
-            ) : slide
+            ) : (
+              <div key={flier.id} className="min-w-full">
+                {content}
+              </div>
+            )
           })}
         </div>
 

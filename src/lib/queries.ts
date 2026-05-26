@@ -166,7 +166,9 @@ export async function getFliers(): Promise<Flier[]> {
     `*[_type == "flier" && is_active == true] | order(sort_order asc) {
       "id": _id,
       title,
-      "image_url": coalesce(image_url, image.asset->url),
+      "mobile_image_url": mobile_image.asset->url,
+      "tablet_image_url": tablet_image.asset->url,
+      "desktop_image_url": desktop_image.asset->url,
       alt_text,
       link_url,
       sort_order,

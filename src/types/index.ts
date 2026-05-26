@@ -1,7 +1,9 @@
 export interface Flier {
   id: string
   title: string
-  image_url: string
+  mobile_image_url: string
+  tablet_image_url: string
+  desktop_image_url: string
   alt_text: string | null
   link_url: string | null
   sort_order: number

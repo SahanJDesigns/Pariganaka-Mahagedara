@@ -52,7 +52,7 @@ export default async function HomePage() {
                   More <ArrowRight size={14} />
                 </Link>
               </div>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {bestSellers.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}
@@ -67,7 +67,7 @@ export default async function HomePage() {
                   More <ArrowRight size={14} />
                 </Link>
               </div>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {newArrivals.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}
