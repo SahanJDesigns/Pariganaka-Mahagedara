@@ -1,9 +1,10 @@
 import { Suspense } from 'react'
 import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
-import { getShopProducts, getBrands, getCategoriesWithSubcategories } from '@/lib/queries'
+import { getShopProducts, getBrands, getCategoriesWithSubcategories, getFliersByCategory, getFliersBySubcategory } from '@/lib/queries'
 import { ProductCard } from '@/components/product/ProductCard'
 import { ShopFilters, MobileFiltersPanel } from '@/components/shop/ShopFilters'
+import { HeroCarousel } from '@/components/layout/HeroCarousel'
 
 interface Props {
   params: Promise<{ slug?: string[] }>
@@ -38,9 +39,14 @@ export default async function ShopPage({ params, searchParams }: Props) {
   const page            = parseInt(pageParam ?? '1', 10)
   const pageSize        = 12
 
-  const [navData, brands] = await Promise.all([
+  const [navData, brands, fliers] = await Promise.all([
     getCategoriesWithSubcategories().catch(() => []),
     getBrands().catch(() => []),
+    subcategorySlug
+      ? getFliersBySubcategory(subcategorySlug).catch(() => [])
+      : categorySlug
+        ? getFliersByCategory(categorySlug).catch(() => [])
+        : Promise.resolve([]),
   ])
 
   const currentCategory = navData.find((c) => c.slug === categorySlug)
@@ -96,6 +102,9 @@ export default async function ShopPage({ params, searchParams }: Props) {
           </span>
         ))}
       </nav>
+
+      {/* Hero Flier Carousel — shown on category / subcategory pages */}
+      {fliers.length > 0 && <HeroCarousel fliers={fliers} />}
 
       <div className="flex gap-8 items-start">
 

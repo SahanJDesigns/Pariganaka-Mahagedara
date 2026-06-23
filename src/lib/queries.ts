@@ -163,7 +163,7 @@ export async function getBrands(): Promise<Brand[]> {
 
 export async function getFliers(): Promise<Flier[]> {
   return sanityClient.fetch(
-    `*[_type == "flier" && is_active == true] | order(sort_order asc) {
+    `*[_type == "flier" && is_active == true && show_on_home == true] | order(sort_order asc) {
       "id": _id,
       title,
       "mobile_image_url": mobile_image.asset->url,
@@ -172,8 +172,43 @@ export async function getFliers(): Promise<Flier[]> {
       alt_text,
       link_url,
       sort_order,
-      is_active
+      is_active,
+      show_on_home
     }`
+  )
+}
+
+export async function getFliersByCategory(categorySlug: string): Promise<Flier[]> {
+  return sanityClient.fetch(
+    `*[_type == "flier" && is_active == true && $categorySlug in categories[]->slug.current] | order(category_sort_order asc) {
+      "id": _id,
+      title,
+      "mobile_image_url": mobile_image.asset->url,
+      "tablet_image_url": tablet_image.asset->url,
+      "desktop_image_url": desktop_image.asset->url,
+      alt_text,
+      link_url,
+      "sort_order": category_sort_order,
+      is_active
+    }`,
+    { categorySlug }
+  )
+}
+
+export async function getFliersBySubcategory(subcategorySlug: string): Promise<Flier[]> {
+  return sanityClient.fetch(
+    `*[_type == "flier" && is_active == true && $subcategorySlug in subcategories[]->slug.current] | order(subcategory_sort_order asc) {
+      "id": _id,
+      title,
+      "mobile_image_url": mobile_image.asset->url,
+      "tablet_image_url": tablet_image.asset->url,
+      "desktop_image_url": desktop_image.asset->url,
+      alt_text,
+      link_url,
+      "sort_order": subcategory_sort_order,
+      is_active
+    }`,
+    { subcategorySlug }
   )
 }
 

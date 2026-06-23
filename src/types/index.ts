@@ -8,6 +8,7 @@ export interface Flier {
   link_url: string | null
   sort_order: number
   is_active: boolean
+  show_on_home: boolean
 }
 
 export interface Brand {
