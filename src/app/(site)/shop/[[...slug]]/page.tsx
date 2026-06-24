@@ -87,21 +87,7 @@ export default async function ShopPage({ params, searchParams }: Props) {
   const filterProps = { brands, subcategories, categorySlug, subcategorySlug }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-
-      {/* Breadcrumbs */}
-      <nav className="flex items-center gap-1 text-sm text-zinc-500 mb-6">
-        {breadcrumbs.map((crumb, i) => (
-          <span key={crumb.href} className="flex items-center gap-1">
-            {i > 0 && <ChevronRight size={14} />}
-            {i === breadcrumbs.length - 1 ? (
-              <span className="text-zinc-700">{crumb.label}</span>
-            ) : (
-              <Link href={crumb.href} className="hover:text-zinc-700 transition-colors">{crumb.label}</Link>
-            )}
-          </span>
-        ))}
-      </nav>
+    <div className="max-w-7xl mx-auto px-4 ">
 
       {/* Hero Flier Carousel — shown on category / subcategory pages */}
       {fliers.length > 0 && <HeroCarousel fliers={fliers} />}
@@ -125,14 +111,6 @@ export default async function ShopPage({ params, searchParams }: Props) {
             <MobileFiltersPanel {...filterProps} />
           </Suspense>
 
-          {/* Title + count */}
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h1 className="text-2xl font-bold text-zinc-900">{pageTitle}</h1>
-              <p className="text-sm text-zinc-500 mt-1">{total} product{total !== 1 ? 's' : ''}</p>
-            </div>
-          </div>
-
           {/* Product grid */}
           {products.length === 0 ? (
             <div className="text-center py-24 text-zinc-500">
@@ -141,7 +119,7 @@ export default async function ShopPage({ params, searchParams }: Props) {
               <Link href="/shop" className="text-sm text-brand-600 hover:underline">Browse all products</Link>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {products.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
